@@ -272,8 +272,6 @@ def pregunta_09():
     39   39   E    5  1998-01-26  1998
 
     """
-
-
     columna_c3 = tbl0.iloc[:,[3]]
     lista_c3 = list(columna_c3['_c3'])
     lista_de_listas = [lista.split('-')[0] for lista in lista_c3]
@@ -282,8 +280,6 @@ def pregunta_09():
     tbl0['year'] = year
     
     return tbl0
-
-
 
 def pregunta_10():
     """
