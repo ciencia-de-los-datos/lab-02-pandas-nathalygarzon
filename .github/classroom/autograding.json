@@ -1,5 +1,5 @@
 {
-  "tests": [
+  "tests":[
     {
       "name": "Pregunta 01",
       "setup": "pip3 install pandas",
@@ -130,5 +130,5 @@
       "timeout": 1,
       "points": 1
     }
-  ]
+  ]    
 }
