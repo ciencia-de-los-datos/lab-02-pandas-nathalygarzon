@@ -22,7 +22,9 @@ def pregunta_01():
     40
 
     """
-    return
+    filas = tbl0.shape[0]
+
+    return filas
 
 
 def pregunta_02():
@@ -33,7 +35,9 @@ def pregunta_02():
     4
 
     """
-    return
+    columnas = tbl0.shape[1]
+
+    return columnas
 
 
 def pregunta_03():
@@ -50,7 +54,31 @@ def pregunta_03():
     Name: _c1, dtype: int64
 
     """
-    return
+
+    columna_c1 = tbl0.iloc[:,[1]]
+
+    lista_c1 = list(columna_c1['_c1'])
+
+    new_c1 = []
+    for word in lista_c1:
+        new_c1.append((word, 1))
+
+    sorted_c1 = sorted(new_c1, key=lambda x: x[0])
+
+    diccionario={}
+    for key, value in sorted_c1:
+        if key not in diccionario.keys():
+            diccionario[key]=[]
+        diccionario[key].append(value)
+            
+    new_sequence1=[]
+    for key, value in diccionario.items():
+        tupla=(key, sum(value))
+        new_sequence1.append(tupla)
+
+    registros_c1 = pd.DataFrame(new_sequence1)
+
+    return registros_c1
 
 
 def pregunta_04():
@@ -65,7 +93,61 @@ def pregunta_04():
     E    4.785714
     Name: _c2, dtype: float64
     """
-    return
+
+    columna_c1 = tbl0.iloc[:,[1]]
+
+    lista_c1 = list(columna_c1['_c1'])
+
+    new_c1 = []
+    for word in lista_c1:
+        new_c1.append((word, 1))
+
+    sorted_c1 = sorted(new_c1, key=lambda x: x[0])
+
+    diccionario={}
+    for key, value in sorted_c1:
+        if key not in diccionario.keys():
+            diccionario[key]=[]
+        diccionario[key].append(value)
+            
+    new_sequence1=[]
+    for key, value in diccionario.items():
+        tupla=(key, sum(value))
+        new_sequence1.append(tupla)
+
+    columnas_c1c2 = tbl0.iloc[:,[1,2]]
+    tuplas = [tuple(x) for x in columnas_c1c2.to_records(index=False)]
+    sorted_tupla = sorted(tuplas, key=lambda x: x[0])
+
+    diccionario={}
+    for key, value in sorted_tupla:
+        if key not in diccionario.keys():
+            diccionario[key]=[]
+        diccionario[key].append(value)
+            
+        new_sequence=[]
+    for key, value in diccionario.items():
+        tupla=(key, sum(value))
+        new_sequence.append(tupla)
+
+    promedio = new_sequence1 + new_sequence
+
+    diccionario={}
+    for key, value in promedio:
+        if key not in diccionario.keys():
+            diccionario[key]=[]
+        diccionario[key].append(value)
+            
+        promedio1=[]
+    for key, value in diccionario.items():
+        tupla=(key, value)
+        promedio1.append(tupla)
+
+    prom = [(item[0], '{:.6f}'.format(item[1][1] / item[1][0])) for item in promedio1]
+
+    prom = pd.DataFrame(prom)
+    
+    return prom
 
 
 def pregunta_05():
@@ -82,7 +164,25 @@ def pregunta_05():
     E    9
     Name: _c2, dtype: int64
     """
-    return
+
+    columnas_c1c2 = tbl0.iloc[:,[1,2]]
+    tuplas = [tuple(x) for x in columnas_c1c2.to_records(index=False)]
+    sorted_tupla = sorted(tuplas, key=lambda x: x[0])
+
+    diccionario={}
+    for key, value in sorted_tupla:
+        if key not in diccionario.keys():
+            diccionario[key]=[]
+        diccionario[key].append(value)
+            
+    max1=[]
+    for key, value in diccionario.items():
+        tupla=(key, max(value))
+        max1.append(tupla)
+
+    max1 = pd.DataFrame(max1)
+
+    return max1
 
 
 def pregunta_06():
@@ -94,7 +194,13 @@ def pregunta_06():
     ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
     """
-    return
+    columna_c4 = tbl1.iloc[:,[1]]
+    lista_c4 = list(columna_c4['_c4'])
+    conjunto_c4 = sorted(set(lista_c4))
+    mayusculas = [letra.upper() for letra in conjunto_c4]
+
+    return mayusculas
+
 
 
 def pregunta_07():
@@ -110,7 +216,25 @@ def pregunta_07():
     E    67
     Name: _c2, dtype: int64
     """
-    return
+
+    columnas_c1c2 = tbl0.iloc[:,[1,2]]
+    tuplas = [tuple(x) for x in columnas_c1c2.to_records(index=False)]
+    sorted_tupla = sorted(tuplas, key=lambda x: x[0])
+
+    diccionario={}
+    for key, value in sorted_tupla:
+        if key not in diccionario.keys():
+            diccionario[key]=[]
+        diccionario[key].append(value)
+                
+    new_sequence=[]
+    for key, value in diccionario.items():
+        tupla=(key, sum(value))
+        new_sequence.append(tupla)
+
+    suma = pd.DataFrame(new_sequence)
+
+    return suma
 
 
 def pregunta_08():
@@ -128,7 +252,9 @@ def pregunta_08():
     39   39   E    5  1998-01-26    44
 
     """
-    return
+    tbl0['suma'] = tbl0['_c0'] + tbl0['_c2']
+
+    return tbl0
 
 
 def pregunta_09():
@@ -146,7 +272,15 @@ def pregunta_09():
     39   39   E    5  1998-01-26  1998
 
     """
-    return
+
+    columna_c3 = tbl0.iloc[:,[3]]
+    lista_c3 = list(columna_c3['_c3'])
+    lista_de_listas = [lista.split('-')[0] for lista in lista_c3]
+    year = pd.DataFrame(lista_de_listas)
+
+    tbl0['year'] = year
+    
+    return tbl0
 
 
 def pregunta_10():
@@ -163,7 +297,29 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    return
+    
+    columnas_c1c2 = tbl0.iloc[:,[1,2]]
+    tuplas = [tuple(x) for x in columnas_c1c2.to_records(index=False)]
+    sorted_tupla = sorted(tuplas, key=lambda x: x[0])
+
+    diccionario={}
+    for key, value in sorted_tupla:
+        if key not in diccionario.keys():
+            diccionario[key]=[]
+        diccionario[key].append(value)
+                
+    new_sequence=[]
+    for key, value in diccionario.items():
+        tupla=(key, value)
+        new_sequence.append(tupla)
+
+    sorted_data = [(key, sorted(values)) for key, values in new_sequence]
+    formatted_data = [(key, ':'.join(map(str, values))) for key, values in sorted_data]
+
+    valores = pd.DataFrame(formatted_data)
+    valores.columns = ['_c0','_c1']    
+
+    return valores
 
 
 def pregunta_11():
@@ -182,7 +338,30 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    return
+
+    columnas_c0c4 = tbl1.iloc[:,[0,1]]
+    tuplas = [tuple(x) for x in columnas_c0c4.to_records(index=False)]
+    sorted_tupla = sorted(tuplas, key=lambda x: x[0])
+
+    diccionario={}
+    for key, value in sorted_tupla:
+        if key not in diccionario.keys():
+            diccionario[key]=[]
+        diccionario[key].append(value)
+                
+    tabla1=[]
+    for key, value in diccionario.items():
+        tupla=(key, value)
+        tabla1.append(tupla)
+
+    sorted_data = [(key, sorted(values)) for key, values in tabla1]
+    formatted_data = [(key, ','.join(map(str, values))) for key, values in sorted_data]
+
+    tabla = pd.DataFrame(formatted_data)
+
+    tabla.columns = ['_c0','_c4']
+
+    return tabla
 
 
 def pregunta_12():
@@ -200,7 +379,29 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
-    return
+    columnas_c0c5ac5b = tbl2.iloc[:,[0,1,2]]
+    tuplas = [tuple(x) for x in columnas_c0c5ac5b.to_records(index=False)]
+    nuevas_tuplas = [(t[0], f"{t[1]}:{t[2]}") for t in tuplas]
+
+    diccionario={}
+    for key, value in nuevas_tuplas:
+        if key not in diccionario.keys():
+            diccionario[key]=[]
+        diccionario[key].append(value)
+                
+    tabla2=[]
+    for key, value in diccionario.items():
+        tupla=(key, value)
+        tabla2.append(tupla)
+
+    sorted_tabla = [(key, sorted(values)) for key, values in tabla2]
+    formatted_data = [(key, ','.join(map(str, values))) for key, values in sorted_tabla]
+
+    tablafinal = pd.DataFrame(formatted_data)
+
+    tablafinal.columns = ['_c0','_c5']
+
+    return tablafinal
 
 
 def pregunta_13():
@@ -217,4 +418,8 @@ def pregunta_13():
     E    275
     Name: _c5b, dtype: int64
     """
-    return
+    tabla = pd.merge(tbl0,tbl2,on = '_c0')
+    tabla = tabla[['_c0','_c1','_c5b']]
+    tabla = tabla.groupby(['_c1'])['_c5b'].sum()
+
+    return tabla
