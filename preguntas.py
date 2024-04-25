@@ -7,14 +7,16 @@ Este archivo contiene las preguntas que se van a realizar en el laboratorio.
 Utilice los archivos `tbl0.tsv`, `tbl1.tsv` y `tbl2.tsv`, para resolver las preguntas.
 
 """
+
 import pandas as pd
+from typing import Any
 
-tbl0 = pd.read_csv("tbl0.tsv", sep="\t")
-tbl1 = pd.read_csv("tbl1.tsv", sep="\t")
-tbl2 = pd.read_csv("tbl2.tsv", sep="\t")
+tbl0: pd.DataFrame = pd.read_csv("tbl0.tsv", sep="\t")
+tbl1: pd.DataFrame = pd.read_csv("tbl1.tsv", sep="\t")
+tbl2: pd.DataFrame = pd.read_csv("tbl2.tsv", sep="\t")
 
 
-def pregunta_01():
+def pregunta_01() -> int:
     """
     ¿Cuál es la cantidad de filas en la tabla `tbl0.tsv`?
 
@@ -22,10 +24,10 @@ def pregunta_01():
     40
 
     """
-    x = tbl0.shape[0]
-    return x
+    return tbl0.shape[0]
 
-def pregunta_02():
+
+def pregunta_02() -> int:
     """
     ¿Cuál es la cantidad de columnas en la tabla `tbl0.tsv`?
 
@@ -33,10 +35,10 @@ def pregunta_02():
     4
 
     """
-    x = tbl0.shape[1]
-    return x
+    return tbl0.shape[1]
 
-def pregunta_03():
+
+def pregunta_03() -> pd.Series:
     """
     ¿Cuál es la cantidad de registros por cada letra de la columna _c1 del archivo
     `tbl0.tsv`?
@@ -50,11 +52,12 @@ def pregunta_03():
     Name: _c1, dtype: int64
 
     """
-    letras = tbl0["_c1"]
-    letras = letras.value_counts().sort_index()
-    return letras
+    result: pd.Series[int] = tbl0["_c1"].value_counts().sort_index()
+    result.name = "_c1"
+    return result
 
-def pregunta_04():
+
+def pregunta_04() -> pd.Series:
     """
     Calcule el promedio de _c2 por cada letra de la _c1 del archivo `tbl0.tsv`.
 
@@ -66,10 +69,10 @@ def pregunta_04():
     E    4.785714
     Name: _c2, dtype: float64
     """
-    promedio_c1 = tbl0.groupby("_c1")["_c2"].mean()
-    return promedio_c1
+    return tbl0.groupby("_c1")["_c2"].mean()
 
-def pregunta_05():
+
+def pregunta_05() -> pd.Series:
     """
     Calcule el valor máximo de _c2 por cada letra en la columna _c1 del archivo
     `tbl0.tsv`.
@@ -83,11 +86,10 @@ def pregunta_05():
     E    9
     Name: _c2, dtype: int64
     """
-    promedio_c1 = tbl0.groupby("_c1")["_c2"].max()
-    #promedio_c1 = tbl0.groupby("_c1")["_c2"].agg(max)  Otra opcion pero saca un warning
-    return promedio_c1
+    return tbl0.groupby("_c1")["_c2"].max()
 
-def pregunta_06():
+
+def pregunta_06() -> list[str]:
     """
     Retorne una lista con los valores unicos de la columna _c4 de del archivo `tbl1.csv`
     en mayusculas y ordenados alfabéticamente.
@@ -96,12 +98,10 @@ def pregunta_06():
     ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
     """
-    letras_mayus = tbl1["_c4"].str.upper().unique().tolist() #El upper() necesita el str antes
-    # letras_unicas = tbl1["_c4"].unique().tolist()
-    # letras_mayus = map(lambda x: x.upper(), letras_unicas)        Otra forma
-    return sorted(letras_mayus)
+    return sorted(tbl1["_c4"].str.upper().unique())
 
-def pregunta_07():
+
+def pregunta_07() -> pd.Series:
     """
     Calcule la suma de la _c2 por cada letra de la _c1 del archivo `tbl0.tsv`.
 
@@ -114,8 +114,8 @@ def pregunta_07():
     E    67
     Name: _c2, dtype: int64
     """
-    suma_letras = tbl0.groupby("_c1")["_c2"].sum()
-    return suma_letras
+    return tbl0.groupby("_c1")["_c2"].sum()
+
 
 def pregunta_08():
     """
@@ -132,8 +132,8 @@ def pregunta_08():
     39   39   E    5  1998-01-26    44
 
     """
-    tbl0["suma"] = tbl0["_c0"] + tbl0["_c2"]
-    return tbl0
+    return tbl0.assign(suma=tbl0["_c0"] + tbl0["_c2"])
+
 
 def pregunta_09():
     """
@@ -150,20 +150,16 @@ def pregunta_09():
     39   39   E    5  1998-01-26  1998
 
     """
-    fechas = tbl0["_c3"]
-    fechas = fechas.map(
-        lambda x: x.split("-")
-    )
-    tbl0["year"]= fechas.map(lambda x: x[0])
-    return tbl0
+    return tbl0.assign(year=tbl0["_c3"].apply(lambda x: x.split("-")[0]))
 
-def pregunta_10():
+
+def pregunta_10() -> pd.DataFrame:
     """
     Construya una tabla que contenga _c1 y una lista separada por ':' de los valores de
     la columna _c2 para el archivo `tbl0.tsv`.
 
     Rta/
-                                   _c1      (Error: Las columnas deben ser _c1 y _c2)
+                                   _c1
       _c0
     0   A              1:1:2:3:6:7:8:9
     1   B                1:3:4:5:6:8:9
@@ -171,17 +167,19 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    letras_unicas = tbl0["_c1"].unique()
-    dicc = {"_c1":[],"_c2":[]}
-    for x in sorted(letras_unicas):
-        valores = sorted(list(tbl0[tbl0["_c1"] == x]["_c2"]))
-        cadena_unida = ":".join(map(lambda y: str(y), valores))
-        dicc["_c1"].append(x)
-        dicc["_c2"].append(cadena_unida)
-    nuevo_dt = pd.DataFrame(dicc).set_index("_c1")
-    return nuevo_dt
+    result = (
+        tbl0.groupby("_c1")["_c2"]
+        .apply(lambda x: ":".join(sorted(x.astype(str))))
+        .reset_index()
+    )
+    result.name = "_c1"
+    result.index = result["_c1"]
+    del result["_c1"]
+    result.index.name = "_c0"
+    return result
 
-def pregunta_11():
+
+def pregunta_11() -> pd.DataFrame:
     """
     Construya una tabla que contenga _c0 y una lista separada por ',' de los valores de
     la columna _c4 del archivo `tbl1.tsv`.
@@ -197,17 +195,10 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    num_unicos = tbl1["_c0"].unique()
-    dicc = {"_c0":[],"_c4":[]}
-    for x in sorted(num_unicos):
-        valores = sorted(list(tbl1[tbl1["_c0"] == x]["_c4"]))
-        cadena_unida = ",".join(map(lambda y: str(y), valores))
-        dicc["_c0"].append(x)
-        dicc["_c4"].append(cadena_unida)
-    nuevo_dt = pd.DataFrame(dicc)
-    return nuevo_dt
+    return tbl1.groupby("_c0")["_c4"].apply(lambda x: ",".join(sorted(x))).reset_index()
 
-def pregunta_12():
+
+def pregunta_12() -> pd.DataFrame:
     """
     Construya una tabla que contenga _c0 y una lista separada por ',' de los valores de
     la columna _c5a y _c5b (unidos por ':') de la tabla `tbl2.tsv`.
@@ -222,18 +213,19 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
-    tbl2["combinada"] = tbl2["_c5a"] + ":" + tbl2["_c5b"].astype(str)   #Tengo que hacer str a _cb5, o sino da error
-    num_unicos = tbl2["_c0"].unique()
-    dicc = {"_c0":[],"_c5":[]}
-    for x in sorted(num_unicos):
-        valores = sorted(list(tbl2[tbl2["_c0"] == x]["combinada"]))
-        cadena_unida = ",".join(map(lambda y: str(y), valores))
-        dicc["_c0"].append(x)
-        dicc["_c5"].append(cadena_unida)
-    nuevo_dt = pd.DataFrame(dicc)
-    return nuevo_dt
+    result = (
+        tbl2.sort_values("_c5a")
+        .groupby("_c0", sort=True)[["_c5a", "_c5b"]]
+        .apply(
+            lambda x: ",".join(
+                [f"{c5a}:{c5b}" for c5a, c5b in zip(x["_c5a"], x["_c5b"])]
+            )
+        )
+    )
+    return pd.DataFrame({"_c0": result.index, "_c5": result.values})
 
-def pregunta_13():
+
+def pregunta_13() -> pd.Series:
     """
     Si la columna _c0 es la clave en los archivos `tbl0.tsv` y `tbl2.tsv`, compute la
     suma de tbl2._c5b por cada valor en tbl0._c1.
@@ -247,7 +239,4 @@ def pregunta_13():
     E    275
     Name: _c5b, dtype: int64
     """
-    suma_c5b = tbl2.groupby("_c0")["_c5b"].sum()
-    nuevo_dt = pd.concat([tbl0, suma_c5b], axis=1)
-    resultado = nuevo_dt.groupby("_c1")["_c5b"].sum()
-    return resultado
+    return tbl0.merge(tbl2, on="_c0").groupby("_c1")["_c5b"].sum()
