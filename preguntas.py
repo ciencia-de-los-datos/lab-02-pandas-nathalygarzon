@@ -15,7 +15,6 @@ tbl0: pd.DataFrame = pd.read_csv("tbl0.tsv", sep="\t")
 tbl1: pd.DataFrame = pd.read_csv("tbl1.tsv", sep="\t")
 tbl2: pd.DataFrame = pd.read_csv("tbl2.tsv", sep="\t")
 
-
 def pregunta_01() -> int:
     """
     ¿Cuál es la cantidad de filas en la tabla `tbl0.tsv`?
@@ -24,7 +23,7 @@ def pregunta_01() -> int:
     40
 
     """
-    
+    return tbl0.shape[0]
 
 
 def pregunta_02() -> int:
