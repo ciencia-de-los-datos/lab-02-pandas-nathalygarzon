@@ -401,6 +401,7 @@ def pregunta_12():
     return tablafinal
 
 
+
 def pregunta_13():
     """
     Si la columna _c0 es la clave en los archivos `tbl0.tsv` y `tbl2.tsv`, compute la
@@ -420,3 +421,5 @@ def pregunta_13():
     tabla = tabla.groupby(['_c1'])['_c5b'].sum()
 
     return tabla
+
+
