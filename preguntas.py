@@ -396,7 +396,6 @@ def pregunta_12():
     formatted_data = [(key, ','.join(map(str, values))) for key, values in sorted_tabla]
 
     tablafinal = pd.DataFrame(formatted_data)
-
     tablafinal.columns = ['_c0','_c5']
 
     return tablafinal
