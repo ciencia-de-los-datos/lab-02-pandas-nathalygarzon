@@ -24,7 +24,7 @@ def pregunta_01() -> int:
     40
 
     """
-    return tbl0.shape[0]
+    
 
 
 def pregunta_02() -> int:
